@@ -3,6 +3,7 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import pages.component.VodicComponent;
 
 public class HomePage extends BasePage{
@@ -14,6 +15,7 @@ public class HomePage extends BasePage{
         super(driver);
         this.driver = driver;
         vodicComponent = new VodicComponent(driver);
+        PageFactory.initElements(driver,this);
     }
 
     @FindBy(css = "[name='isDetailed']")

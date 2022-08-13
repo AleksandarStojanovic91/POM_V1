@@ -3,6 +3,9 @@ package pages.component;
 import helpers.CommonActions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class VodicComponent extends CommonActions {
     WebDriver driver;
@@ -10,11 +13,13 @@ public class VodicComponent extends CommonActions {
     public VodicComponent(WebDriver driver) {
         super(driver);
         this.driver = driver;
+        PageFactory.initElements(driver,this);
     }
 
-    By prelistajVodic = By.xpath("//a[contains(text(),'PRELISTAJ VODIČ')]");
+    @FindBy(xpath = "//a[contains(text(),'PRELISTAJ VODIČ')]")
+    WebElement prelistajVodic;
 
     public void prelistajVodic(){
-        clickElement(driver.findElement(prelistajVodic),"Prelistaj vodic button");
+        clickElement(prelistajVodic,"Prelistaj vodic button");
     }
 }

@@ -3,11 +3,12 @@ package tests;
 import io.qameta.allure.Allure;
 import jdk.internal.util.xml.impl.Input;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+import selenium_core.DriverManager;
+import selenium_core.DriverManagerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,25 +20,17 @@ import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
     WebDriver driver;
+    DriverManager driverManager;
 
-    public void init(String browser, int wait){
-        switch (browser){
-            case "Chrome":{
-                System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver.exe");
-                driver = new ChromeDriver();
-            }
-            break;
-            case "Firefox":{
-                System.setProperty("webdriver.gecko.driver","src/main/resources/geckodriver.exe");
-                driver = new FirefoxDriver();
-            }
-        }
+    public void init(String browser, int wait) throws Exception {
+        driverManager = DriverManagerFactory.getDriverManager(browser);
+        driver = driverManager.getWebDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(wait, TimeUnit.SECONDS);
     }
 
     public void quit(){
-        driver.quit();
+        driverManager.quitWebDriver();
     }
 
     public void takeScreenshot(String name) throws IOException {
@@ -51,4 +44,15 @@ public class BaseTest {
         InputStream is = Files.newInputStream(content);
         Allure.addAttachment(desc,is);
     }
+
+    public void assertEqualsText(WebElement element, String expected, String log) throws IOException {
+        scrollToElement(element);
+        reportScreenshot("Assert","Expected: "+expected+" Actual: "+element.getText());
+        Assert.assertEquals(element.getText(),expected,log);
+    }
+
+    public void scrollToElement(WebElement element) {
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true)",element);
+    }
+
 }

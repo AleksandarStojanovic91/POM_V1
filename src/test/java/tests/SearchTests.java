@@ -1,5 +1,6 @@
 package tests;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.*;
 import pages.*;
 
@@ -7,8 +8,8 @@ import java.io.IOException;
 
 public class SearchTests extends BaseTest{
     @BeforeMethod
-    public void setup(){
-        init("Chrome",30);
+    public void setup() throws Exception {
+        init("CHROME",30);
     }
 
     @AfterMethod
@@ -31,6 +32,8 @@ public class SearchTests extends BaseTest{
         detailedSearchPage.checkOption("ABS");
         detailedSearchPage.checkOption("ASR");
         detailedSearchPage.enterPriceFrom("1000");
+
+        assertEqualsText(driver.findElement(By.cssSelector("h1")),"Pretraga automobila","Text u naslovu h1 elementa se ne slaze");
     }
 
 }
