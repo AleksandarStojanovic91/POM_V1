@@ -31,4 +31,28 @@ public class CommonActions {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click().build().perform();
     }
+
+    public void typeText(WebElement element, String text, String log){
+        WebDriverWait wdWait = new WebDriverWait(driver,30);
+        wdWait.until(ExpectedConditions.elementToBeClickable(element));
+
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).click().build().perform();
+
+        element.clear();
+        element.sendKeys(text);
+
+        System.out.println("Typed text: "+text+" to element: "+log);
+    }
+
+    public void typeText(WebElement element, String text){
+        WebDriverWait wdWait = new WebDriverWait(driver,30);
+        wdWait.until(ExpectedConditions.elementToBeClickable(element));
+
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).click().build().perform();
+
+        element.clear();
+        element.sendKeys(text);
+    }
 }

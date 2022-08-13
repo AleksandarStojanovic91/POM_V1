@@ -18,6 +18,8 @@ public class DetailedSearchPage extends BasePage{
     WebElement brand;
     @FindBy(xpath = "//div[@class='SumoSelect sumo_model']//span[text()=' Svi modeli']")
     WebElement model;
+    @FindBy(css = "[name='price_from']")
+    WebElement priceFrom;
 
     public void selectBrandByText(String text){
         clickElement(brand,"Brand");
@@ -31,5 +33,9 @@ public class DetailedSearchPage extends BasePage{
 
     public void checkOption(String text){
         clickElement(driver.findElement(By.xpath("//label[text()='"+text+"']/../input")),"Checkbox option "+text);
+    }
+
+    public void enterPriceFrom(String price){
+        typeText(priceFrom,price,"Price from");
     }
 }
